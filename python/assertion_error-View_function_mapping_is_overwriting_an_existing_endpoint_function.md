@@ -48,3 +48,24 @@ def admin_only(func: Callable) -> Callable:
     closure.__name__ = func.__name__
     return closure
 ```
+
+### OR
+
+Use the `@wraps` decorator
+
+```python
+from functools import wraps
+
+
+def admin_only(func: Callable) -> Callable:
+    
+    @wraps(callable)
+    def closure(*args):
+        if current_user.id == 1:
+            print('User is Admin...Authorized')
+            return func(*args)
+        print('User is not an Admin...Forbidden Access')
+        return abort(403)
+
+    return closure
+```
